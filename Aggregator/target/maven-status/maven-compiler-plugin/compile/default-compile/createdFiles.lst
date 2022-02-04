@@ -1,0 +1,5 @@
+com\healthfirst\eligibility\AggregateUtils.class
+com\healthfirst\eligibility\EventToItemUtils.class
+com\healthfirst\eligibility\SimpleProducer.class
+com\healthfirst\eligibility\HandlerMSK.class
+com\healthfirst\eligibility\DynamoDBUtils.class
