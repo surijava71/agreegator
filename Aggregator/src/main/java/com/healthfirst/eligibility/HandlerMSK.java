@@ -17,11 +17,16 @@ public class HandlerMSK implements RequestHandler<KafkaEvent, String> {
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private static final Logger logger = LogManager.getLogger(HandlerMSK.class);
 	SimpleProducer prod = null;
-	DynamoDBUtils dbUtils = null;
-
+	AggregateUtils agUtils = null;
+	/ * DynamoDBUtils dbUtils = null;
+	
 	public HandlerMSK() {
 		dbUtils = new DynamoDBUtils();
 		dbUtils.initDynamoDbClient();
+		prod = new SimpleProducer();
+	} */
+	public HandlerMSK() {
+		agUtils = new AggregateUtils();
 		prod = new SimpleProducer();
 	}
 
@@ -67,11 +72,8 @@ public class HandlerMSK implements RequestHandler<KafkaEvent, String> {
 				logger.error(e.getMessage());
 				return("400 Message formate Error");
 			}
-			
 				
-			
-
-			try {
+			/ *try {
 				dbUtils.persistData(payload);
 
 			} catch (Exception e) {
@@ -86,7 +88,23 @@ public class HandlerMSK implements RequestHandler<KafkaEvent, String> {
 			}
 			// logger.info("EVENT TYPE: {} \n", kafkaEvent.getClass().toString());
 		}
+		return response; */
+		String updatedJsonItem = null;
+			try {
+				updatedJsonItem = agUtils.aggregate(payload);
+				if (updatedJsonItem != null) {
+					prod.publish("ods-customer-eligibility", updatedJsonItem);
+				}else {
+					logger.error("Issue with Aggreagtion String. check aggregation Logic or Update");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error(e.getMessage());
+			}
+			
+			// logger.info("EVENT TYPE: {} \n", kafkaEvent.getClass().toString());
+		}
 
-		return response;
+		return response;	
 	}
 }
