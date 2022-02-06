@@ -32,7 +32,7 @@ public class DynamoDBUtils {
 		this.dynamoDb = new DynamoDB(client);
 	}
 
-	public PutItemOutcome persistData(JsonObject payload) {
+	/ * public PutItemOutcome persistData(JsonObject payload) {
 		logger.info("Persist Dynamo DB1");
 		Table table = dynamoDb.getTable(DYNAMO_DB_TABLE_NAME);
 		logger.info(table.getTableName());
@@ -56,6 +56,24 @@ public class DynamoDBUtils {
 	
 		
 		PutItemOutcome outcome = table.putItem(new PutItemSpec().withItem(itL.get(0)));
+
+		logger.info("after Persist Dynamo DB");
+		return outcome;
+	} */ 
+	public Item getItem(String pk) {
+		Table table = dynamoDb.getTable(DYNAMO_DB_TABLE_NAME);
+		logger.info(table.getTableName());
+		Item item = table.getItem(PK, pk);
+		return item;
+	}
+
+	public PutItemOutcome updateItem(Item it) {
+		logger.info("Persist Dynamo DB1");
+		Table table = dynamoDb.getTable(DYNAMO_DB_TABLE_NAME);
+		logger.info(table.getTableName());
+		logger.info("Persist Dynamo DB2");
+		
+		PutItemOutcome outcome = table.putItem(new PutItemSpec().withItem(it));
 
 		logger.info("after Persist Dynamo DB");
 		return outcome;
