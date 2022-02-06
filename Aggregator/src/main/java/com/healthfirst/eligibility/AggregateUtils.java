@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
 public class AggregateUtils {
 
 	private DynamoDB dynamoDb;
-	private String DYNAMO_DB_TABLE_NAME = "Employee";
+	private String DYNAMO_DB_TABLE_NAME = "ods-ddb-eligibility";
 	private Regions REGION = Regions.US_EAST_1;
 
 	private static final Logger logger = LogManager.getLogger(AggregateUtils.class);
