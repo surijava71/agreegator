@@ -21,6 +21,7 @@ public class DynamoDBUtils {
 	private DynamoDB dynamoDb;
 	private String DYNAMO_DB_TABLE_NAME = "ods-ddb-eligibility";
 	private Regions REGION = Regions.US_EAST_1;
+	private String PK = "hf_member_num_cd";
 
 	private static final Logger logger = LogManager.getLogger(DynamoDBUtils.class);
 
